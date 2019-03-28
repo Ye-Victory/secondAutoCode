@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>自动代码生成工具配置页面</title>
+</head>
+<body>
+    <h2>请输入以下配置信息: </h2>
+    <form action="*" th:action="@{/autoCode}" th:object="${baseDef}" method="post">
+        <p>数据库表名: <input type="text" th:field="*{tableName}"/></p>
+        <p>实体类名: <input type="text" th:field="*{entity}"/></p>
+        <p>模块备注: <input type="text" th:field="*{tableComment}"/></p>
+        <p>作者Email: <input type="text" th:field="*{author}"/></p>
+        <p>是否弹框(noPopUp不弹框/popUp弹框): <input type="text" th:field="*{addButtonType}"/></p>
+        <p><input type="submit" value="一键生成代码"/> <input type="reset" value="返回"/></p>
+    </form>
+</body>
+</html>

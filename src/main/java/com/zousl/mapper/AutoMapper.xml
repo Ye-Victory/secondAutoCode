@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zousl.mapper.AutoMapper">
+
+    <select id="getDataSource" parameterType="hashmap" resultType="string">
+        SELECT
+          DISTINCT CS.TABLE_NAME
+        FROM
+            INFORMATION_SCHEMA.COLUMNS CS
+        WHERE
+            TABLE_SCHEMA = 'test_cat_zsl'
+
+        <if test="null != source and source != '' ">
+            AND TABLE_NAME LIKE "%"#{source}"%"
+        </if>
+
+        ORDER BY
+            CS.ORDINAL_POSITION
+    </select>
+
+    <select id="getColumns" parameterType="hashmap" resultType="com.zousl.vo.TableShchema">
+        SELECT
+            CS.COLUMN_NAME AS code,
+            CS.DATA_TYPE AS type,
+            CS.COLUMN_COMMENT AS name,
+            CS.IS_NULLABLE AS if_null,
+            CS.COLUMN_KEY AS column_key
+        FROM
+            INFORMATION_SCHEMA. COLUMNS CS
+        WHERE
+            TABLE_SCHEMA = 'test_cat_zsl'
+        AND TABLE_NAME = #{tableName}
+        ORDER BY
+            CS.ORDINAL_POSITION
+    </select>
+</mapper>
