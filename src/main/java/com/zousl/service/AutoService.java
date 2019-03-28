@@ -38,12 +38,12 @@ public class AutoService {
         List<TableShchema> rs = autoMapper.getColumns(params);
         for (TableShchema shchema : rs){
             TableDef vo = new TableDef();
-            String code = shchema.getCode();
+            String code = shchema.getColumnName();
             String columnKey = shchema.getColumnKey();
             // 是否允许为空  yes 允许，no 不允许
-            String ifNull = shchema.getIfNull();
-            String name = shchema.getName();
-            String type = shchema.getType();
+            String ifNull = shchema.getIsNullable();
+            String name = shchema.getColumnComment();
+            String type = shchema.getDataType();
             if (null != columnKey && "PRI".equalsIgnoreCase(columnKey)) {//主键
                 vo.setIsPk("true");
             } else {

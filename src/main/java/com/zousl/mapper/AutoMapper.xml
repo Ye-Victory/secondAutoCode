@@ -22,13 +22,13 @@
 
     <select id="getColumns" parameterType="hashmap" resultType="com.zousl.vo.TableShchema">
         SELECT
-            CS.COLUMN_NAME AS code,
-            CS.DATA_TYPE AS type,
-            CS.COLUMN_COMMENT AS name,
-            CS.IS_NULLABLE AS if_null,
-            CS.COLUMN_KEY AS column_key
+            CS.COLUMN_NAME AS columnName,
+            CS.DATA_TYPE AS dataType,
+            CS.COLUMN_COMMENT AS columnComment,
+            CS.IS_NULLABLE AS isNullable,
+            CS.COLUMN_KEY AS columnKey
         FROM
-            INFORMATION_SCHEMA. COLUMNS CS
+            INFORMATION_SCHEMA.COLUMNS CS
         WHERE
             TABLE_SCHEMA = 'test_cat_zsl'
         AND TABLE_NAME = #{tableName}

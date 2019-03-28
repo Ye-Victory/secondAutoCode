@@ -27,18 +27,18 @@ import java.util.Map;
 /**
 *
 * <pre>
- * ${tableComment}
- * </pre>
+* ${tableComment}
+* </pre>
 *
 * @author ${author}
 * @version 1.00.00
+* 创建时间: ${.now}
 *
-*          <pre>
- * 修改记录
- *    修改后版本:     修改人：  修改日期:     修改内容:
- * </pre>
+* <pre>
+* 修改记录
+*    修改后版本:     修改人：  修改日期:     修改内容:
+* </pre>
 */
-
 @Component
 @Controller("${controllerCorePackageName}_${entity}Controller")
 @RequestMapping("/${moduleWFileName}/${entity?uncap_first}")

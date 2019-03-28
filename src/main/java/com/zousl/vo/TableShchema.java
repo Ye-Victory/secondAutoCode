@@ -7,9 +7,14 @@ import lombok.Data;
  */
 @Data
 public class TableShchema {
-    private String code;
-    private String type;
-    private String name;
-    private String ifNull; // 是否允许为空  yes 允许，no 不允许
+    // 字段名称
+    private String columnName;
+    // 字段类型
+    private String dataType;
+    // 字段备注
+    private String columnComment;
+    // 是否允许为空  yes 允许，no 不允许
+    private String isNullable;
+    // 是否是主键
     private String columnKey;
 }

@@ -12,6 +12,12 @@
         <p>模块备注: <input type="text" th:field="*{tableComment}"/></p>
         <p>作者Email: <input type="text" th:field="*{author}"/></p>
         <p>是否弹框(noPopUp不弹框/popUp弹框): <input type="text" th:field="*{addButtonType}"/></p>
+        <p>模板的存放路径: <input type="text" th:field="*{fromUrl}"></p>
+        <p>文件的输出路径: <input type="text" th:field="*{toUrl}"></p>
+        <p>核心包名称: <input type="text" th:field="*{basePackage}"></p>
+        <p>前端文件存放目录: <input type="text" th:field="*{justepCatalog}"></p>
+        <p>是否启用表头搜索(默认不启用false): <input type="text" th:field="*{isTitleSearch}"></p>
+        <p>作为查询条件的字段: <input type="text" th:field="*{asSearchKey}"></p>
         <p><input type="submit" value="一键生成代码"/> <input type="reset" value="返回"/></p>
     </form>
 </body>
