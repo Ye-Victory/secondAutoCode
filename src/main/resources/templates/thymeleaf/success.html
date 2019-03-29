@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <title>生成成功</title>
 </head>
 <body>
-    <h2>恭喜您!生成成功!</h2>
+    <h2>生成文件的路径如下: </h2>
+    <tr th:each="string:${rstList}">
+        <td th:text="${string}"/><br>
+    </tr>
 </body>
 </html>

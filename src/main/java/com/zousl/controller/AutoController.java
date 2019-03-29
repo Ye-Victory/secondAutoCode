@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.zousl.utils.SingleConfigConst.*;
+import static com.zousl.utils.SingleConfigConst.EXCLUDE_FIELD;
 
 /**
  * Created by ZOUSL1 on 2019-3-12.
@@ -86,26 +86,35 @@ public class AutoController {
      * @return
      */
     @RequestMapping("/autoCode")
-    public String autoCode(@ModelAttribute BaseDef baseDef){
+    public String autoCode(@ModelAttribute BaseDef baseDef, Model model){
         try {
-            autoFile(baseDef);
+            List<String> rstList = autoFile(baseDef);
+            model.addAttribute("rstList",rstList);
         }catch (Exception e){
             return "fail";
         }
         return "success";
     }
 
-    private void autoFile(BaseDef baseDef) throws Exception {
+    private List<String> autoFile(BaseDef baseDef) throws Exception {
         Map<String,Object> params = new HashMap<>();
+        List<String> rstList = new ArrayList<>();
         params.put("tableName",baseDef.getTableName());
         List<TableDef> tables = autoService.getColumns(params, false);
-        createController(baseDef);
-        createService(baseDef);
-        createServiceImpl(baseDef);
-        createDao(baseDef);
-        createDaoXml(baseDef,tables);
-        createEntity(baseDef,tables);
-//        createListW(tables,baseDef);
+        String controller = createController(baseDef);
+        String service = createService(baseDef);
+        String serviceImpl = createServiceImpl(baseDef);
+        String dao = createDao(baseDef);
+        String daoXml = createDaoXml(baseDef, tables);
+        String entity = createEntity(baseDef, tables);
+//        createListW(tables,baseDef;
+        rstList.add(controller);
+        rstList.add(service);
+        rstList.add(serviceImpl);
+        rstList.add(dao);
+        rstList.add(daoXml);
+        rstList.add(entity);
+        return rstList;
     }
 
     /**
@@ -113,7 +122,7 @@ public class AutoController {
      * @param def
      * @param tables
      */
-    private void createEntity(BaseDef def, List<TableDef> tables) throws IOException {
+    private String createEntity(BaseDef def, List<TableDef> tables) throws IOException {
         long currentTimeMillis=System.currentTimeMillis();
         Map<String, Object> root = new HashMap<String, Object>();
         root.put("currentTimeMillis", String.valueOf(currentTimeMillis));
@@ -127,8 +136,9 @@ public class AutoController {
         Writer out = new OutputStreamWriter(System.out);
         FreeMarkertUtil freemk = new FreeMarkertUtil(def.getFromUrl(), "entity.ftl");
         String fileName = def.getEntity()+ ".java";
-        freemk.processTemplate(root, out, def.getToUrl(), fileName);
+        String entityStr = freemk.processTemplate(root, out, def.getToUrl(), fileName);
         out.flush();
+        return entityStr;
     }
 
     /**
@@ -136,7 +146,7 @@ public class AutoController {
      * @param def
      * @param tables
      */
-    private void createDaoXml(BaseDef def, List<TableDef> tables) throws IOException {
+    private String createDaoXml(BaseDef def, List<TableDef> tables) throws IOException {
         Map<String, Object> root = new HashMap<String, Object>();
         root.put("entity", def.getEntity());
         root.put("corePackageName", def.getBasePackage().replaceAll("\\\\","."));
@@ -164,15 +174,16 @@ public class AutoController {
         Writer out = new OutputStreamWriter(System.out);
         FreeMarkertUtil freemk = new FreeMarkertUtil(def.getFromUrl(), "daoXml.ftl");
         String fileName = def.getEntity() + "Dao.xml";
-        freemk.processTemplate(root, out, def.getToUrl(), fileName);
+        String rst = freemk.processTemplate(root, out, def.getToUrl(), fileName);
         out.flush();
+        return rst;
     }
 
     /**
      * 生成dao文件
      * @param def
      */
-    private void createDao(BaseDef def) throws IOException {
+    private String createDao(BaseDef def) throws IOException {
         Map<String, Object> root = new HashMap<String, Object>();
         root.put("entity", def.getEntity());
         root.put("tableComment", def.getTableComment());
@@ -181,15 +192,16 @@ public class AutoController {
         Writer out = new OutputStreamWriter(System.out);
         FreeMarkertUtil freemk = new FreeMarkertUtil(def.getFromUrl(), "dao.ftl");
         String fileName = def.getEntity() + "Dao.java";
-        freemk.processTemplate(root, out, def.getToUrl(), fileName);
+        String rst = freemk.processTemplate(root, out, def.getToUrl(), fileName);
         out.flush();
+        return rst;
     }
 
     /**
      * 生成serviceImpl文件
      * @param def
      */
-    private void createServiceImpl(BaseDef def) throws IOException {
+    private String createServiceImpl(BaseDef def) throws IOException {
         Map<String, Object> root = new HashMap<String, Object>();
         root.put("entity", def.getEntity());
         root.put("tableComment", def.getTableComment());
@@ -200,15 +212,16 @@ public class AutoController {
         Writer out = new OutputStreamWriter(System.out);
         FreeMarkertUtil freemk = new FreeMarkertUtil(def.getFromUrl(), "serviceImp.ftl");
         String fileName = def.getEntity() + "ServiceImpl.java";
-        freemk.processTemplate(root, out, def.getToUrl(), fileName);
+        String rst = freemk.processTemplate(root, out, def.getToUrl(), fileName);
         out.flush();
+        return rst;
     }
 
     /**
      * 生成service文件
      * @param def
      */
-    private void createService(BaseDef def) throws IOException {
+    private String createService(BaseDef def) throws IOException {
         Map<String, Object> root = new HashMap<String, Object>();
         root.put("entity", def.getEntity());
         root.put("tableComment", def.getTableComment());
@@ -218,8 +231,9 @@ public class AutoController {
         Writer out = new OutputStreamWriter(System.out);
         FreeMarkertUtil freemk = new FreeMarkertUtil(def.getFromUrl(), "service.ftl");
         String fileName = def.getEntity() + "Service.java";
-        freemk.processTemplate(root, out, def.getToUrl(), fileName);
+        String rst = freemk.processTemplate(root, out, def.getToUrl(), fileName);
         out.flush();
+        return rst;
     }
 
     /**
@@ -227,7 +241,7 @@ public class AutoController {
      * @param def
      * @throws IOException
      */
-    private void createController(BaseDef def) throws IOException {
+    private String createController(BaseDef def) throws IOException {
         Map<String, Object> root = new HashMap<String, Object>();
         root.put("entity", def.getEntity());
         root.put("tableComment", def.getTableComment());
@@ -239,8 +253,9 @@ public class AutoController {
         Writer out = new OutputStreamWriter(System.out);
         FreeMarkertUtil freemk = new FreeMarkertUtil(def.getFromUrl(), "controller.ftl");
         String fileName = def.getEntity() + "Controller.java";
-        freemk.processTemplate(root, out, def.getToUrl(), fileName);
+        String rst = freemk.processTemplate(root, out, def.getToUrl(), fileName);
         out.flush();
+        return rst;
     }
 
     private void createListW(List<TableDef> tables, BaseDef baseDef) throws IOException {

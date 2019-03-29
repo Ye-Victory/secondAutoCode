@@ -5,20 +5,48 @@
     <title>自动代码生成工具配置页面</title>
 </head>
 <body>
-    <h2>请输入以下配置信息: </h2>
-    <form action="*" th:action="@{/autoCode}" th:object="${baseDef}" method="post">
-        <p>数据库表名: <input type="text" th:field="*{tableName}"/></p>
-        <p>实体类名: <input type="text" th:field="*{entity}"/></p>
-        <p>模块备注: <input type="text" th:field="*{tableComment}"/></p>
-        <p>作者Email: <input type="text" th:field="*{author}"/></p>
-        <p>是否弹框(noPopUp不弹框/popUp弹框): <input type="text" th:field="*{addButtonType}"/></p>
-        <p>模板的存放路径: <input type="text" th:field="*{fromUrl}"></p>
-        <p>文件的输出路径: <input type="text" th:field="*{toUrl}"></p>
-        <p>核心包名称: <input type="text" th:field="*{basePackage}"></p>
-        <p>前端文件存放目录: <input type="text" th:field="*{justepCatalog}"></p>
-        <p>是否启用表头搜索(默认不启用false): <input type="text" th:field="*{isTitleSearch}"></p>
-        <p>作为查询条件的字段: <input type="text" th:field="*{asSearchKey}"></p>
-        <p><input type="submit" value="一键生成代码"/> <input type="reset" value="返回"/></p>
-    </form>
+    <style>
+        .form{
+            text-align: center;
+            background-color: aliceblue;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+
+    </style>
+
+    <div class="form">
+        <h2>请输入以下配置信息</h2>
+        <form action="*" th:action="@{/autoCode}" th:object="${baseDef}" method="post">
+            <p>数据库表名: <input type="text" th:field="*{tableName}"/></p>
+            <p>实体类名: <input type="text" th:field="*{entity}"/></p>
+            <p>模块备注: <input type="text" th:field="*{tableComment}"/></p>
+            <p>作者Email: <input type="text" th:field="*{author}"/></p>
+            <p>是否弹框(noPopUp不弹框/popUp弹框): <input type="text" th:field="*{addButtonType}"/></p>
+            <p>模板的存放路径: <input type="text" style="width: 500px" th:field="*{fromUrl}"/></p>
+            <p>文件的输出路径: <input type="text" th:field="*{toUrl}"/></p>
+            <p>核心包名称: <input type="text" th:field="*{basePackage}"/></p>
+            <p>前端文件存放目录: <input type="text" th:field="*{justepCatalog}"/></p>
+            <p>是否启用表头搜索(默认不启用false): <input type="text" th:field="*{isTitleSearch}"/></p>
+            <p>作为查询条件的字段: <input type="text" style="width: 500px" th:field="*{asSearchKey}"/></p>
+            <p>
+                <input class="button" type="submit" value="一键生成代码"/>
+                <input class="button" type="reset" value="返回"/>
+            </p>
+        </form>
+    </div>
 </body>
 </html>
